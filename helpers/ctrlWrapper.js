@@ -1,12 +1,14 @@
+const { validationError } = require('./createError');
+
 const ctrlWrapper = ctrl => {
   const func = async (req, res, next) => {
     try {
       await ctrl(req, res, next);
     } catch (error) {
+      validationError(error);
       next(error);
     }
   };
-
   return func;
 };
 
