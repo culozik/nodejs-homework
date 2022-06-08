@@ -1,7 +1,7 @@
-const validationBody = require("./validationBody");
-const validationBodyLength = require("./validationBodyLength");
+const validationBody = require('./validationBody');
+const validationBodyLength = require('./validationBodyLength');
 
-module.exports ={
-    validationBody,
-    validationBodyLength,
-}
+module.exports = {
+  validationBody,
+  validationBodyLength,
+};

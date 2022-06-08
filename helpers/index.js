@@ -1,9 +1,9 @@
-const createError = require("./createError");
-const ctrlWrapper = require("./ctrlWrapper");
-const TYPE = require("./messageTypes")
+const createError = require('./createError');
+const ctrlWrapper = require('./ctrlWrapper');
+const MESSAGE = require('./messageTypes');
 
 module.exports = {
   createError,
   ctrlWrapper,
-  TYPE,
+  MESSAGE,
 };

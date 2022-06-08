@@ -1,10 +1,14 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const joiSchema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-    phone: Joi.string().required(),
-    favorite: Joi.boolean(),
-  });
+  name: Joi.string()
+    .pattern(/[a-z]+$/)
+    .required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string()
+    .pattern(/[0-9()-]+$/)
+    .required(),
+  favorite: Joi.boolean(),
+});
 
 module.exports = joiSchema;
