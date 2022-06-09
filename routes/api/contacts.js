@@ -1,97 +1,32 @@
-const express = require("express");
-const Joi = require("joi");
+const express = require('express');
 
-const contacts = require("../../models/contacts");
-const { createError } = require("../../helpers");
+const { contacts: ctrl } = require('../../controllers');
+const { ctrlWrapper, MESSAGE } = require('../../helpers');
+const { validationBody, validationBodyLength } = require('../../middlewares');
+const { joiSchema } = require('../../models');
 
 const router = express.Router();
 
-const joiSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().required(),
-  phone: Joi.string().required(),
-});
+router.get('/', ctrlWrapper(ctrl.getAll));
 
-const joiPutSchema = Joi.object({
-  name: Joi.string(),
-  email: Joi.string(),
-  phone: Joi.string(),
-});
+router.get('/:contactId', ctrlWrapper(ctrl.getById));
 
-const TYPE = {
-  MISSING: "missing required name field",
-  DELETED: "contact deleted",
-  NO_FIELDS: "missing fields"
-}
+router.post('/', validationBody(joiSchema.add), ctrlWrapper(ctrl.addContact));
 
-router.get("/", async (req, res, next) => {
-  try {
-    const result = await contacts.listContacts();
-    res.json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+router.delete('/:contactId', ctrlWrapper(ctrl.removeById));
 
-router.get("/:contactId", async ({params}, res, next) => {
-  try {
-    const { contactId } = params;
-    const result = await contacts.getContactById(contactId);
-    if (!result) {
-      throw createError(404);
-    }
-    res.json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+router.put(
+  '/:contactId',
+  validationBodyLength(MESSAGE.NO_FIELDS),
+  validationBody(joiSchema.update),
+  ctrlWrapper(ctrl.updateById)
+);
 
-router.post("/", async ({body}, res, next) => {
-  try {
-    const { error } = joiSchema.validate(body);
-    if (error) {
-      throw createError(400, TYPE.MISSING);
-    }
-    const result = await contacts.addContact(body);
-    res.status(201).json(result);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.delete("/:contactId", async ({params}, res, next) => {
-  try {
-    const { contactId } = params;
-    const result = await contacts.removeContact(contactId);
-
-    if (!result) {
-      throw createError(404);
-    }
-    res.json({ message: TYPE.DELETED });
-  } catch (error) {
-    next(error)
-  }
-});
-
-router.put("/:contactId", async ({body, params}, res, next) => {
-  try {
-    if(!Object.keys(body).length) {
-      throw createError(400, TYPE.NO_FIELDS);
-    }
-    const { error } = joiPutSchema.validate(body);
-    if (error) {
-      throw createError(400, TYPE.MISSING);
-    }
-    const { contactId } = params;
-    const result = await contacts.updateContact(contactId, body);
-    if (!result) {
-      throw createError(404);
-    }
-    res.json(result);
-  } catch (error) {
-    next(error);
-  }
-});
-
+router.patch(
+  '/:contactId/favorite',
+  validationBodyLength(MESSAGE.NO_FAVORITE),
+  validationBody(joiSchema.statusUpdate),
+  ctrlWrapper(ctrl.updateStatusById)
+);
 
 module.exports = router;

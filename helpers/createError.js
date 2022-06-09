@@ -1,9 +1,11 @@
+const { MESSAGE, ERROR_TYPE } = require('./messageTypes');
+
 const messages = {
-  400: "Bad Request",
-  401: "Unauthorized",
-  403: "Forbidden",
-  404: "Not Found",
-  409: "Conflict",
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  403: 'Forbidden',
+  404: 'Not Found',
+  409: 'Conflict',
 };
 
 const createError = (status, message = messages[status]) => {
@@ -12,4 +14,15 @@ const createError = (status, message = messages[status]) => {
   return error;
 };
 
-module.exports = createError;
+const validationError = error => {
+  if (error.message.includes(ERROR_TYPE.EMAIL)) {
+    error.status = 400;
+    error.message = MESSAGE.EMAIL;
+  }
+  if (error.message.includes(ERROR_TYPE.PHONE)) {
+    error.status = 400;
+    error.message = MESSAGE.PHONE;
+  }
+};
+
+module.exports = { createError, validationError };
