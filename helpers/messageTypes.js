@@ -7,6 +7,7 @@ const MESSAGE = {
   EMAIL: 'Email is already in contact list',
   USER_EMAIL: 'Email in use',
   PHONE: 'Phone number is already in contact list',
+  LOGIN: 'Email or password is wrong',
 };
 
 const ERROR_TYPE = {
