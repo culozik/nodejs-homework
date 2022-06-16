@@ -23,6 +23,10 @@ const validationError = error => {
     error.status = 400;
     error.message = MESSAGE.PHONE;
   }
+  if (error.message.includes(ERROR_TYPE.USER_EMAIL)) {
+    error.status = 409;
+    error.message = MESSAGE.USER_EMAIL;
+  }
 };
 
 module.exports = { createError, validationError };
