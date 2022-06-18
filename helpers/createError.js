@@ -18,10 +18,17 @@ const validationError = error => {
   if (error.message.includes(ERROR_TYPE.EMAIL)) {
     error.status = 400;
     error.message = MESSAGE.EMAIL;
+    return;
   }
   if (error.message.includes(ERROR_TYPE.PHONE)) {
     error.status = 400;
     error.message = MESSAGE.PHONE;
+    return;
+  }
+  if (error.message.includes(ERROR_TYPE.SUBSCRIPTION)) {
+    error.status = 400;
+    error.message = MESSAGE.WRONG_SUBSCRIPTION;
+    return;
   }
   if (error.message.includes(ERROR_TYPE.USER_EMAIL)) {
     error.status = 409;

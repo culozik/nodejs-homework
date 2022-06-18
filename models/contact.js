@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const CODE_REGEXP = {
   NAME: /[a-z]+$/,
-  EMAIL: /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/,
+  EMAIL: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   PHONE: /[0-9()-]+$/,
 };
 

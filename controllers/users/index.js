@@ -1,7 +1,9 @@
-const addUser = require('./registerUser');
-const login = require('./login');
+const current = require('./current');
+const logout = require('./logout');
+const updateSubscription = require('./updateSubscription');
 
 module.exports = {
-  addUser,
-  login,
+  current,
+  logout,
+  updateSubscription,
 };
