@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs/promises');
+const Jimp = require('jimp');
 
 const { User } = require('../../models/user');
 
@@ -10,6 +11,9 @@ const setAvatar = async (req, res, next) => {
   const { path: tmpUpload, filename } = req.file;
 
   try {
+    const image = await Jimp.read(tmpUpload);
+    await image.resize(250, 250).quality(80).writeAsync(tmpUpload);
+
     const [extension] = filename.split('.').reverse();
     const newFileName = `${_id}.${extension}`;
     const resultUpload = path.join(avatarsDir, newFileName);
