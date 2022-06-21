@@ -7,10 +7,10 @@ const { User } = require('../../models/user');
 const avatarsDir = path.join(__dirname, '../../', 'public', 'avatars');
 
 const setAvatar = async (req, res, next) => {
-  const { _id } = req.user;
-  const { path: tmpUpload, filename } = req.file;
-
   try {
+    const { _id } = req.user;
+    const { path: tmpUpload, filename } = req.file;
+
     const image = await Jimp.read(tmpUpload);
     await image.resize(250, 250).quality(80).writeAsync(tmpUpload);
 
