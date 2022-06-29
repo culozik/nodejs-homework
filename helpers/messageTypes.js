@@ -12,6 +12,9 @@ const MESSAGE = {
   MISSING_CONTACT: 'No such contact.',
   WRONG_SUBSCRIPTION: 'Wrong type of subscription.',
   ID: 'Not id.',
+  VERIFICATION: 'Verification successful',
+  EMAIL_VERIFICATION: 'Email not verify',
+  VERIFICATION_PASSED: 'Verification has already been passed',
 };
 
 const ERROR_TYPE = {
